@@ -1,0 +1,717 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/lucy.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="鱿鱼">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录一些我比赛的时候的用过的脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚本">
+<meta property="og:url" content="http://example.com/2024/10/13/%E8%84%9A%E6%9C%AC/index.html">
+<meta property="og:site_name" content="squid1LLL">
+<meta property="og:description" content="记录一些我比赛的时候的用过的脚本">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-13T13:02:56.000Z">
+<meta property="article:modified_time" content="2024-10-31T09:09:34.380Z">
+<meta property="article:author" content="鱿鱼">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>脚本 - squid1LLL</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":50,"cursorChar":"*","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"NspbmfZxbZKiA8WtZztA4utZ-gzGzoHsz","app_key":"Bley809j6xSm4e5hV132okkC","server_url":"https://nspbmfzx.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 75vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>鱿鱼</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>鱿鱼</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/cyb.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="脚本"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-13 21:02" pubdate>
+          2024年10月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          702 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span>次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">脚本</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="BASE64隐写"><a href="#BASE64隐写" class="headerlink" title="BASE64隐写"></a>BASE64隐写</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs vim">import base64<br><br>b64chars = <span class="hljs-string">&#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&#x27;</span><br><br>with <span class="hljs-keyword">open</span>(<span class="hljs-string">&#x27;flag.txt&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-keyword">f</span>:<br>    bin_str = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">line</span> in <span class="hljs-keyword">f</span>.readlines():<br>        line_str = <span class="hljs-built_in">line</span>.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>).strip()  # Decode bytes <span class="hljs-keyword">to</span> <span class="hljs-built_in">string</span> <span class="hljs-built_in">and</span> <span class="hljs-built_in">remove</span> leading/trailing whitespaces<br>        stegb64 = <span class="hljs-string">&#x27;&#x27;</span>.<span class="hljs-keyword">join</span>(line_str.<span class="hljs-keyword">split</span>())<br>        padding_needed = <span class="hljs-built_in">len</span>(stegb64) % <span class="hljs-number">4</span><br>        <span class="hljs-keyword">if</span> padding_needed &gt; <span class="hljs-number">0</span>:<br>            stegb64 += <span class="hljs-string">&#x27;=&#x27;</span> * (<span class="hljs-number">4</span> - padding_needed)  # Add padding characters <span class="hljs-keyword">if</span> needed<br>        <span class="hljs-keyword">try</span>:<br>            rowb64 = base64.b64encode(base64.b64decode(stegb64)).decode()<br>            offset = <span class="hljs-built_in">abs</span>(b64chars.<span class="hljs-built_in">index</span>(stegb64.replace(<span class="hljs-string">&#x27;=&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)[-<span class="hljs-number">1</span>]) - b64chars.<span class="hljs-built_in">index</span>(rowb64.replace(<span class="hljs-string">&#x27;=&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)[-<span class="hljs-number">1</span>]))<br>            equalnum = stegb64.<span class="hljs-built_in">count</span>(<span class="hljs-string">&#x27;=&#x27;</span>)  # Count the <span class="hljs-keyword">number</span> of padding characters<br>            <span class="hljs-keyword">if</span> equalnum:<br>                bin_str += bin(offset)[<span class="hljs-number">2</span>:].zfill(equalnum * <span class="hljs-number">2</span>)<br>        except base64.binascii.Error <span class="hljs-keyword">as</span> <span class="hljs-keyword">e</span>:<br>            <span class="hljs-keyword">print</span>(<span class="hljs-keyword">f</span><span class="hljs-string">&quot;Error decoding base64 string: &#123;e&#125;&quot;</span>)<br><br>    # Convert binary <span class="hljs-built_in">string</span> <span class="hljs-keyword">to</span> ASCII characters <span class="hljs-built_in">and</span> <span class="hljs-keyword">print</span><br>    ascii_str = <span class="hljs-string">&#x27;&#x27;</span>.<span class="hljs-keyword">join</span>([chr(<span class="hljs-keyword">int</span>(bin_str[i:i + <span class="hljs-number">8</span>], <span class="hljs-number">2</span>)) <span class="hljs-keyword">for</span> i in <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(bin_str), <span class="hljs-number">8</span>)])<br>    <span class="hljs-keyword">print</span>(ascii_str)<br></code></pre></td></tr></table></figure>
+
+<h3 id="TTL隐写"><a href="#TTL隐写" class="headerlink" title="TTL隐写"></a>TTL隐写</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;F:\misc题目下载\\attachment-2.txt&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    lines = f.readlines()<br>n_num = []<br><span class="hljs-comment"># 分析出所有的数</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> lines:<br>    <span class="hljs-keyword">if</span> i != <span class="hljs-string">&#x27;\n&#x27;</span>:<br>        n_num.append(<span class="hljs-built_in">int</span>(i))<br><span class="hljs-comment"># 拿到每个TTL值的高位</span><br>rlt = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(lines)):<br>    tmp = <span class="hljs-built_in">bin</span>(n_num[i])[<span class="hljs-number">2</span>:]<br>    tmp = <span class="hljs-string">&#x27;0&#x27;</span> * (<span class="hljs-number">8</span> - <span class="hljs-built_in">len</span>(tmp)) + tmp<br>    rlt += tmp[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br><span class="hljs-comment"># 得到最终的结果并存到文件中</span><br>rlt2 = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(rlt), <span class="hljs-number">8</span>):<br>    rlt2 += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(rlt[i:i + <span class="hljs-number">8</span>], <span class="hljs-number">2</span>))<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;input.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(rlt2.rstrip())<br></code></pre></td></tr></table></figure>
+
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> rarfile<br><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment"># 获取当前目录下的第一个 .rar 文件</span><br>files = os.listdir(os.getcwd())<br>filename = <span class="hljs-built_in">next</span>((i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> files <span class="hljs-keyword">if</span> i.endswith(<span class="hljs-string">&quot;.rar&quot;</span>)), <span class="hljs-literal">None</span>)<br><br><span class="hljs-keyword">if</span> filename <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;没有找到 .rar 文件&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    rarf = rarfile.RarFile(filename)<br>    flag = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-built_in">dict</span> = &#123;&#125;<br><br>    <span class="hljs-comment"># 读取每个 .txt 文件的日期时间信息并生成对应的字符</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">18</span>):<br>        name = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;filename[:-<span class="hljs-number">4</span>]&#125;</span>/.<span class="hljs-subst">&#123;i&#125;</span>.txt&#x27;</span><br>        info = rarf.getinfo(name)<br>        datetime = info.date_time<br>        out = datetime[-<span class="hljs-number">2</span>] * <span class="hljs-number">60</span> + datetime[-<span class="hljs-number">1</span>]<br>        <span class="hljs-built_in">dict</span>[i] = <span class="hljs-built_in">chr</span>(out)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">dict</span>)<br><br>    <span class="hljs-comment"># 生成最终的 flag</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">18</span>):<br>        flag += <span class="hljs-built_in">dict</span>[i]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;ISCC&#123;&#x27;</span> + flag + <span class="hljs-string">&#x27;&#125;&#x27;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="零宽隐写"><a href="#零宽隐写" class="headerlink" title="零宽隐写"></a>零宽隐写</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># encoding=utf-8</span><br><br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Set</span>, <span class="hljs-type">Union</span>, <span class="hljs-type">Any</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_use_chars</span>(<span class="hljs-params">encode_str: <span class="hljs-built_in">str</span></span>):<br>    special_chars = [<span class="hljs-string">&#x27;\u200a&#x27;</span>, <span class="hljs-string">&#x27;\u200b&#x27;</span>, <span class="hljs-string">&#x27;\u200c&#x27;</span>, <span class="hljs-string">&#x27;\u200d&#x27;</span>, <span class="hljs-string">&#x27;\u200e&#x27;</span>, <span class="hljs-string">&#x27;\u200f&#x27;</span>, <span class="hljs-string">&#x27;\u202a&#x27;</span>, <span class="hljs-string">&#x27;\u202b&#x27;</span>, <span class="hljs-string">&#x27;\u202c&#x27;</span>,<br>                     <span class="hljs-string">&#x27;\u202d&#x27;</span>, <span class="hljs-string">&#x27;\u2062&#x27;</span>, <span class="hljs-string">&#x27;\u2063&#x27;</span>, <span class="hljs-string">&#x27;\ufeff&#x27;</span>]<br>    pattern = <span class="hljs-string">&quot;[&quot;</span> + <span class="hljs-string">&quot;&quot;</span>.join(re.escape(char) <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> special_chars) + <span class="hljs-string">&quot;]&quot;</span><br>    found_chars = <span class="hljs-built_in">set</span>(re.findall(pattern, encode_str))<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sorted</span>(<span class="hljs-built_in">list</span>(found_chars))<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UnicodeSteganographer</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.chars = []<br>        <span class="hljs-variable language_">self</span>.radix = <span class="hljs-number">0</span><br>        <span class="hljs-variable language_">self</span>.Codelength_text = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_use_chars</span>(<span class="hljs-params">self, new_chars: <span class="hljs-built_in">str</span></span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(new_chars) &gt;= <span class="hljs-number">2</span>:<br>            <span class="hljs-variable language_">self</span>.chars = <span class="hljs-built_in">list</span>(new_chars)<br>            <span class="hljs-variable language_">self</span>.radix = <span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.chars)<br>            <span class="hljs-variable language_">self</span>.Codelength_text = math.ceil(math.log(<span class="hljs-number">65536</span>, <span class="hljs-variable language_">self</span>.radix))<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode_text</span>(<span class="hljs-params">self, text: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">dict</span>:<br>        splitted = <span class="hljs-variable language_">self</span>.split_zerowidth_characters(text)<br>        <span class="hljs-keyword">return</span> &#123;<br>            <span class="hljs-string">&#x27;originalText&#x27;</span>: splitted[<span class="hljs-string">&#x27;originalText&#x27;</span>],<br>            <span class="hljs-comment"># splitted[&#x27;hiddenText&#x27;],</span><br>            <span class="hljs-string">&#x27;hiddenText&#x27;</span>: <span class="hljs-variable language_">self</span>.decode_from_zero_width_characters_text(splitted[<span class="hljs-string">&#x27;hiddenText&#x27;</span>])<br>        &#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">split_zerowidth_characters</span>(<span class="hljs-params">self, str1: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">dict</span>:<br>        split_result = &#123;<br>            <span class="hljs-string">&#x27;originalText&#x27;</span>: re.sub(<span class="hljs-string">&#x27;[&#x27;</span> + <span class="hljs-string">&#x27;&#x27;</span>.join(re.escape(char) <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.chars) + <span class="hljs-string">&#x27;]&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, str1),<br>            <span class="hljs-string">&#x27;hiddenText&#x27;</span>: re.sub(<span class="hljs-string">&#x27;[^&#x27;</span> + <span class="hljs-string">&#x27;&#x27;</span>.join(re.escape(char) <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.chars) + <span class="hljs-string">&#x27;]&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>, str1)<br>        &#125;<br>        <span class="hljs-keyword">return</span> split_result<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode_from_zero_width_characters_text</span>(<span class="hljs-params">self, zero_width_str: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>        <span class="hljs-comment"># 初始化</span><br>        r = zero_width_str<br>        decode_result = []<br><br>        <span class="hljs-comment"># 字符替换</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.chars)):  <span class="hljs-comment"># 修改这里为遍历chars的长度</span><br>            r = re.sub(<span class="hljs-variable language_">self</span>.chars[i], <span class="hljs-built_in">str</span>(i), r)<br><br>        <span class="hljs-comment"># 解码文本字符</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(r), <span class="hljs-variable language_">self</span>.Codelength_text):<br>            char_code = <span class="hljs-built_in">int</span>(r[i:i + <span class="hljs-variable language_">self</span>.Codelength_text], <span class="hljs-variable language_">self</span>.radix)<br>            decode_result.append(<span class="hljs-built_in">chr</span>(char_code))<br><br>        <span class="hljs-comment"># 合并结果为字符串并返回</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join(decode_result)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># 只需要把零宽隐写的文本粘贴过来</span><br>    zerotext = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-comment"># 自动化计算方式</span><br>    stegano = UnicodeSteganographer()<br>    stegano.set_use_chars(<span class="hljs-string">&quot;&quot;</span>.join(get_use_chars(zerotext)))<br>    result = stegano.decode_text(zerotext)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;try1:&quot;</span> + result[<span class="hljs-string">&#x27;hiddenText&#x27;</span>])<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;---------------------------------------------------------------------------&quot;</span>)<br><br>    <span class="hljs-comment"># 默认计算方式</span><br>    stegano2 = UnicodeSteganographer()<br>    stegano2.set_use_chars(<span class="hljs-string">&#x27;\u200c\u200d\u202c\ufeff&#x27;</span>)<br>    result2 = stegano2.decode_text(zerotext)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;try2:&quot;</span> + result2[<span class="hljs-string">&#x27;hiddenText&#x27;</span>])<br><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%84%9A%E6%9C%AC/" class="category-chain-item">脚本</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>脚本</div>
+      <div>http://example.com/2024/10/13/脚本/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>鱿鱼</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"NspbmfZxbZKiA8WtZztA4utZ-gzGzoHsz","appKey":"Bley809j6xSm4e5hV132okkC","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量
+        <span id="leancloud-site-pv"></span>
+        次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数
+        <span id="leancloud-site-uv"></span>
+        人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
