@@ -278,7 +278,7 @@
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>11.2k words</span>
+            <span>11.1k words</span>
           </span>
           
             <span class="text-gray-400">·</span>
@@ -486,13 +486,6 @@ ssh -i id_rsa root@redis的IP   #在攻击机上使用ssh免密登录靶机
 
 <h4 id="问题-1-nacos-用户密码的密文值作为-flag-提交-flag-密文"><a href="#问题-1-nacos-用户密码的密文值作为-flag-提交-flag-密文" class="headerlink" title="问题 1 nacos 用户密码的密文值作为 flag 提交 flag{密文}"></a>问题 1 nacos 用户密码的密文值作为 flag 提交 flag{密文}</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nacos是一个功能强大且易于使用的动态服务发现、配置管理和服务管理平台，它能够帮助开发者轻松管理和监控分布式系统中的服务实例，提高系统的可靠性和可扩展性</span><br></pre></td></tr></table></figure>
 
-<p>首先可以去排查auth.log</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/log/auth.log.1</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d16.png"></p>
-<p>这里就是看到了nacos的在哪</p>
-<p>(其实我是一开始不知道nacos是什么，才去看日志的找的线索，但其实感觉清楚的话，有的人应该会直接定位道&#x2F;var&#x2F;lacal目录)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">存放/usr/local 中安装的程序的可变数据(即系统管理员安装的程序)。</span><br></pre></td></tr></table></figure>
 
 <p>看数据库配置文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/local/nacos/conf/nacos-mysql.sql</span><br></pre></td></tr></table></figure>
