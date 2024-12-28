@@ -268,17 +268,17 @@
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-12-27</time>
+            <time>2024-12-28</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>41 min</span>
+            <span>44 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>10.1k words</span>
+            <span>10.9k words</span>
           </span>
           
             <span class="text-gray-400">·</span>
@@ -482,6 +482,46 @@ ssh -i id_rsa root@redis的IP   #在攻击机上使用ssh免密登录靶机
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NTLM：NT LAN Manager的缩写，是一种网络认证协议，用于在Windows网络上进行用户认证。这里的282d975e35846022476068ab5a3d72df是用户名win101在VULNTARGET域下经过NTLM哈希算法处理后的密码哈希值。</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d15.png"></p>
+<h1 id="DAY13"><a href="#DAY13" class="headerlink" title="DAY13"></a>DAY13</h1><h2 id="第八章-内存马分析-java01-nacos"><a href="#第八章-内存马分析-java01-nacos" class="headerlink" title="第八章 内存马分析-java01-nacos"></a>第八章 内存马分析-java01-nacos</h2><h3 id="解题过程-7"><a href="#解题过程-7" class="headerlink" title="解题过程"></a>解题过程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">问题 1 nacos 用户密码的密文值作为 flag 提交 flag&#123;密文&#125;</span><br><span class="line">问题 2 shiro 的key为多少  shiro 的 key 请记录下来 （备注请记录下，可能有用）</span><br><span class="line">问题 3 靶机内核版本为 flag&#123;&#125;</span><br><span class="line">问题 4 尝试应急分析，运行 get_flag 然后尝试 check_flag 通过后提交 flag</span><br><span class="line">问题 5 尝试修复 nacos 并且自行用 poc 测试是否成功</span><br></pre></td></tr></table></figure>
+
+<h4 id="问题-1-nacos-用户密码的密文值作为-flag-提交-flag-密文"><a href="#问题-1-nacos-用户密码的密文值作为-flag-提交-flag-密文" class="headerlink" title="问题 1 nacos 用户密码的密文值作为 flag 提交 flag{密文}"></a>问题 1 nacos 用户密码的密文值作为 flag 提交 flag{密文}</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Nacos是一个功能强大且易于使用的动态服务发现、配置管理和服务管理平台，它能够帮助开发者轻松管理和监控分布式系统中的服务实例，提高系统的可靠性和可扩展性</span><br></pre></td></tr></table></figure>
+
+<p>首先可以去排查auth.log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/log/auth.log.1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d16.png"></p>
+<p>这里就是看到了nacos的在哪</p>
+<p>(其实我是一开始不知道nacos是什么，才去看日志的找的线索，但其实感觉清楚的话，有的人应该会直接定位道&#x2F;var&#x2F;lacal目录)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">存放/usr/local 中安装的程序的可变数据(即系统管理员安装的程序)。</span><br></pre></td></tr></table></figure>
+
+<p>看数据库配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/local/nacos/conf/nacos-mysql.sql</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d17.png"></p>
+<h4 id="问题-2-shiro-的key为多少-shiro-的-key-请记录下来-（备注请记录下，可能有用）"><a href="#问题-2-shiro-的key为多少-shiro-的-key-请记录下来-（备注请记录下，可能有用）" class="headerlink" title="问题 2 shiro 的key为多少  shiro 的 key 请记录下来 （备注请记录下，可能有用）"></a>问题 2 shiro 的key为多少  shiro 的 key 请记录下来 （备注请记录下，可能有用）</h4><p>在nacos目录下有个nacos_config_export_20231206050259.zip下载到本地搜索shiro找到</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d18.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件是一个yaml格式的配置文件是基于Spring框架的应用程序</span><br></pre></td></tr></table></figure>
+
+<h4 id="问题-3-靶机内核版本为-flag"><a href="#问题-3-靶机内核版本为-flag" class="headerlink" title="问题 3 靶机内核版本为 flag{}"></a>问题 3 靶机内核版本为 flag{}</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Linux内核版本查看方法</span><br><span class="line">使用uname命令</span><br><span class="line">uname -r：直接显示当前内核版本号。</span><br><span class="line">uname -a：显示包括内核版本在内的系统详细信息。</span><br><span class="line"></span><br><span class="line">查看/proc/version文件</span><br><span class="line">cat /proc/version：显示内核版本、GCC编译器版本等详细信息。</span><br><span class="line"></span><br><span class="line">使用dmesg命令</span><br><span class="line">dmesg | grep &#x27;Linux version&#x27;：从内核消息缓冲区中过滤出内核版本信息。</span><br><span class="line"></span><br><span class="line">使用hostnamectl命令</span><br><span class="line">hostnamectl：显示系统主机名、Linux发行版和内核版本等信息。</span><br><span class="line">hostnamectl | grep Kernel：仅显示内核版本信息。</span><br><span class="line"></span><br><span class="line">查看发行版特定的文件</span><br><span class="line">cat /etc/os-release：某些发行版包含内核版本信息。</span><br><span class="line">cat /etc/lsb-release：类似地，显示发行版和内核信息（如果文件存在）。</span><br><span class="line">cat /etc/*release 或 cat /etc/*-release：尝试查找包含“release”的文件。</span><br><span class="line"></span><br><span class="line">使用包管理器查询</span><br><span class="line">RPM系统（如CentOS、Fedora）：rpm -q kernel 显示已安装的内核包版本。</span><br><span class="line">Debian系统（如Ubuntu）：dpkg -l linux-image-* 列出所有已安装的Linux内核包，当前使用的内核版本通常会有特殊标记。</span><br><span class="line">这些方法是查看Linux内核版本的常用且有效的方式。根据具体需求和系统环境，可以选择最适合的方法。</span><br></pre></td></tr></table></figure>
+
+<h4 id="问题-4-尝试应急分析，运行-get-flag-然后尝试-check-flag-通过后提交-flag"><a href="#问题-4-尝试应急分析，运行-get-flag-然后尝试-check-flag-通过后提交-flag" class="headerlink" title="问题 4 尝试应急分析，运行 get_flag 然后尝试 check_flag 通过后提交 flag"></a>问题 4 尝试应急分析，运行 get_flag 然后尝试 check_flag 通过后提交 flag</h4><p>找到get_flag在哪里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@vulntarget:~# find / -name get_flag</span><br><span class="line">/home/vulntarget/get_flag</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d19.png"></p>
+<p>这里显示应急失败,证明还存在问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat \etc\passwd</span><br></pre></td></tr></table></figure>
+
+<p>看到存在后门用户bt</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d20.png"></p>
+<p>把他删掉，删除得时候显示进程1在用，直接把这个进程删了就好了</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d21.png"></p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d22.png"></p>
+<p>还没有完成</p>
+<p>删除并运行</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d23.png"></p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d24.png"></p>
+<h4 id="问题-5-尝试修复-nacos-并且自行用-poc-测试是否成功"><a href="#问题-5-尝试修复-nacos-并且自行用-poc-测试是否成功" class="headerlink" title="问题 5 尝试修复 nacos 并且自行用 poc 测试是否成功"></a>问题 5 尝试修复 nacos 并且自行用 poc 测试是否成功</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说实话没太明白</span><br></pre></td></tr></table></figure>
+
 
   </article>
   <!-- tag -->
