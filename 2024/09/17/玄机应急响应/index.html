@@ -273,12 +273,12 @@
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>44 min</span>
+            <span>45 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>10.9k words</span>
+            <span>11.2k words</span>
           </span>
           
             <span class="text-gray-400">·</span>
@@ -522,6 +522,22 @@ ssh -i id_rsa root@redis的IP   #在攻击机上使用ssh免密登录靶机
 <p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d24.png"></p>
 <h4 id="问题-5-尝试修复-nacos-并且自行用-poc-测试是否成功"><a href="#问题-5-尝试修复-nacos-并且自行用-poc-测试是否成功" class="headerlink" title="问题 5 尝试修复 nacos 并且自行用 poc 测试是否成功"></a>问题 5 尝试修复 nacos 并且自行用 poc 测试是否成功</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">说实话没太明白</span><br></pre></td></tr></table></figure>
 
+<h2 id="第八章-内存马分析-java02-shiro"><a href="#第八章-内存马分析-java02-shiro" class="headerlink" title="第八章 内存马分析-java02-shiro"></a>第八章 内存马分析-java02-shiro</h2><h3 id="解题过程-8"><a href="#解题过程-8" class="headerlink" title="解题过程"></a>解题过程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.将 shiro 的 key 作为 flag 提交</span><br><span class="line">2.隐藏用户后删除，并将隐藏用户名作为 flag 提交</span><br><span class="line">3.分析app.jar文件是否存在后门，并把后门路由名称作为 flag 提交 &lt;flag&#123;/manager&#125;&gt;</span><br><span class="line">4.分析app.jar文件，将后门的密码作为 flag 提交</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-将-shiro-的-key-作为-flag-提交"><a href="#1-将-shiro-的-key-作为-flag-提交" class="headerlink" title="1.将 shiro 的 key 作为 flag 提交"></a>1.将 shiro 的 key 作为 flag 提交</h4><p>java1找到得shirokey</p>
+<h4 id="2-隐藏用户后删除，并将隐藏用户名作为-flag-提交"><a href="#2-隐藏用户后删除，并将隐藏用户名作为-flag-提交" class="headerlink" title="2.隐藏用户后删除，并将隐藏用户名作为 flag 提交"></a>2.隐藏用户后删除，并将隐藏用户名作为 flag 提交</h4><p>fscan扫描开放端口</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d25.png"></p>
+<p>访问8088是一个登录界面</p>
+<p>利用得到得shirokey</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d26.png"></p>
+<h4 id="3-分析app-jar文件是否存在后门，并把后门路由名称作为-flag-提交"><a href="#3-分析app-jar文件是否存在后门，并把后门路由名称作为-flag-提交" class="headerlink" title="3.分析app.jar文件是否存在后门，并把后门路由名称作为 flag 提交 &lt;flag{&#x2F;manager}&gt;"></a>3.分析app.jar文件是否存在后门，并把后门路由名称作为 flag 提交 &lt;flag{&#x2F;manager}&gt;</h4><p>要分析她，我们得把这个文件拿出来，打一个内存马进去</p>
+<p>通过蚁剑把app.jar下载下来，jdax反编译后看到</p>
+<p>这里就是后门</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d27.png"></p>
+<p>路径&#x2F;exec</p>
+<h4 id="4-分析app-jar文件，将后门的密码作为-flag-提交"><a href="#4-分析app-jar文件，将后门的密码作为-flag-提交" class="headerlink" title="4.分析app.jar文件，将后门的密码作为 flag 提交"></a>4.分析app.jar文件，将后门的密码作为 flag 提交</h4><p>这里是接受一个cmd的参数，所以密码是cmd</p>
+<p>验证</p>
+<p><img src="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/d28.png"></p>
 
   </article>
   <!-- tag -->
