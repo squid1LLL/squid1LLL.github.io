@@ -270,7 +270,7 @@
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2024-12-19</time>
+            <time>2025-08-06</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
@@ -298,9 +298,9 @@
     <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">小路是一名实习生，接替公司前任网管的工作，一天发现公司网络出口出现了异常的通信，现需要通过回溯出口流量对异常点位(防火墙)进行定位，并确定异常的设备。然后进行深度取证检查（需要获取root权限）。现在需要你从网络攻击数据包中找出漏洞攻击的会话，分析会话编写exp或数据包重放获取防火墙设备管理员权限，查找防火墙设备上安装的木马，然后分析木马外联地址和通信密钥以及木马启动项位置。</span><br></pre></td></tr></table></figure>
 
 <h3 id="1-从数据包中找出攻击者利用漏洞开展攻击的会话-攻击者执行了一条命令-，写出该会话中设置的flag-结果提交形式-flag-x"><a href="#1-从数据包中找出攻击者利用漏洞开展攻击的会话-攻击者执行了一条命令-，写出该会话中设置的flag-结果提交形式-flag-x" class="headerlink" title="1.从数据包中找出攻击者利用漏洞开展攻击的会话(攻击者执行了一条命令)，写出该会话中设置的flag,结果提交形式:flag{x}"></a>1.从数据包中找出攻击者利用漏洞开展攻击的会话(攻击者执行了一条命令)，写出该会话中设置的flag,结果提交形式:flag{x}</h3><p>题目给了攻击流量包，攻击者是执行了一条命令，我们设置过滤http，对数据包追踪</p>
-<p><img src="/1.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/689312478e9b3.png" alt="1754468951876.png"></p>
 <p>看到exec后面执行ps，后面回显了所有进程,这里就是攻击者的payload,在数据包的Referer有一串编码是base64</p>
-<p><img src="/2.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/68931247af7e8.png" alt="1754468951876.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ZmxhZ3s2QzJFMzhEQS1EOEU0LThEODQtNEE0Ri1FMkFCRDA3QTFGM0F9</span><br><span class="line">flag&#123;6C2E38DA-D8E4-8D84-4A4F-E2ABD07A1F3A&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -314,9 +314,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;c6045425-6e6e-41d0-be09-95682a4f65c4&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式-flag-xxx-，如flag-www-abc-com-或-flag-16-122-33-44"><a href="#3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式-flag-xxx-，如flag-www-abc-com-或-flag-16-122-33-44" class="headerlink" title="3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式:flag{xxx}，如flag{www.abc.com} 或 flag(16.122.33.44)"></a>3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式:flag{xxx}，如flag{<a target="_blank" rel="noopener" href="http://www.abc.com}/">www.abc.com}</a> 或 flag(16.122.33.44)</h3><p>可以用netstat 命令显示网络状态</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a><img src="/3.png"></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -antp</span><br><span class="line">-antp选项的意思是列出所有（a）当前的网络连接，不限制网络协议（n），并显示监听状态的（t）TCP连接以及相关进程信息（p）。</span><br></pre></td></tr></table></figure>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://free.picui.cn/free/2025/08/06/6893124818638.png" alt="1754468951877.png"></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -antp</span><br><span class="line">-antp选项的意思是列出所有（a）当前的网络连接，不限制网络协议（n），并显示监听状态的（t）TCP连接以及相关进程信息（p）。</span><br></pre></td></tr></table></figure>
 
-<p><img src="/4.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124856e54.png" alt="1754468951877.png"></p>
 <p>这个bash就是执行的木马文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;202.115.89.103&#125;</span><br></pre></td></tr></table></figure>
 
@@ -326,30 +326,30 @@
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -l /proc/10651/</span><br><span class="line">-l (查看详细信息）</span><br></pre></td></tr></table></figure>
 
-<p><img src="/5.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124838801.png" alt="1754468951877.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;.nginx&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式-flag-xxxx"><a href="#5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式-flag-xxxx" class="headerlink" title="5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式:flag{xxxx}"></a>5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式:flag{xxxx}</h3><p>我们已经找到了木马文件.nginx,直接cat就是文件的ascii,不好提取，我们可以用到xxd命令只显示16进制把他16进制提取出来，去010导入16进制</p>
-<p><img src="/6.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124a5745e.png" alt="1754468951877.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxd  -p /tmp/.nginx</span><br></pre></td></tr></table></figure>
 
-<p><img src="/7.png"></p>
-<p><img src="/8.png"></p>
-<p><img src="/9.png"><br>shift f12可疑发现字符串 逆向分析到函数用到了这个字符串</p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124ab1951.png" alt="1754468951877.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124b0d1a9.png" alt="1754468951877.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124b6a9d1.png" alt="1754468951877.png"><br>shift f12可疑发现字符串 逆向分析到函数用到了这个字符串</p>
 <p>就是这个函数用到了</p>
-<p><img src="/10.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124cae506.png" alt="1754468951877.png"></p>
 <p>再进去sub_8049C93</p>
-<p><img src="/11.png"></p>
-<p><img src="/12.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124d455a5.png" alt="1754468951878.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124d0f9a1.png" alt="1754468951878.png"></p>
 <p>函数执行了复杂的字符串和整数处理，包括XOR加密&#x2F;解密操作所以确定他就是加密密钥</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;11223344qweasdzxc&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式-flag-xxxx-，如flag-a-b-c"><a href="#6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式-flag-xxxx-，如flag-a-b-c" class="headerlink" title="6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式:flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}"></a>6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式:flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}</h3><p>我们可以看看环境变量</p>
 <p>当前工作目录</p>
-<p><img src="/13.png"></p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124f980ab.png" alt="1754468951878.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/register/system/startup/scripts/nat/File</span><br></pre></td></tr></table></figure>
 
-<p><img src="/14.png">确实执行了恶意程序</p>
+<p><img src="https://free.picui.cn/free/2025/08/06/6893124f30243.png" alt="1754468951878.png">确实执行了恶意程序</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;/var/register/system/startup/scripts/nat/File&#125;</span><br></pre></td></tr></table></figure>
 
 
